@@ -162,4 +162,15 @@ controller.login = async function(req, res) {
   }
 }
 
+controller.me = function(req, res){
+  //se houver usuário autenticado, ele foi salvoem req.authUser
+  //pelo middlaware auth quando este conferiu o token. Portanto,
+  //para ecitar informações do usuário logado ao front, basta 
+  //responder com req.authUser
+  if(req.authUser) res.send(req.authUser )
+  // se req.authUser não existir, significa que não há uauário autenticado
+  //HTTP 401: Unauthorized
+  else res.status(401).end()
+}
+
 export default controller
