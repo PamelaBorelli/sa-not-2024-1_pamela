@@ -16,14 +16,11 @@ export default function AppHeader() {
   React.useEffect(() => {
     (async function() {
       try {
-        const result = await myfetch.get('/users/me')
-        setAuthUser(result)
+       await myfetch.post('/users/logout')
+       navigate('/login')
       }
-      catch(error) {
-        console.error(error)
-        setAuthUser(null)
-        // Redirecionar para a página de login
-        // navigate('/login')
+      catch(error){
+        console.log('ERRO DO SERVIDOR: ' + error.message);
       }
     })()
   }, [location])

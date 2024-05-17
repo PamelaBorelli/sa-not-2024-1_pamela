@@ -9,13 +9,13 @@ import logger from "morgan";
 import indexRouter from "./routes/index.js";
 //import usersRouter from "./routes/users.js";
 
-//Helmet é um pacote que provê várias medidas de segurança
+const app = express();
+
+// Helmet é um pacote que preve varias medidas de segurança,
 // como esconder a tecnologia empregada pelo back-end
-//(cabeçalho X-Powered-by)
+// Cabeçalho X-Power 
 import helmet from 'helmet'
 app.use(helmet())
-
-const app = express();
 
 import cors from 'cors'
 app.use(cors({
@@ -36,14 +36,14 @@ import auth from './middleware/auth.js'
 app.use(auth)
 
 // MIDDLEWARE DE LIMITAÇÃO DE TAXA DE ACESSO
-// Todas as rotas serão afetadas
 
-// import rateLimiter from './middleware/rate-limiter.js';
-// app.use(rateLimiter)
+//Todas as rotas serão efetuadas
+//import rateLimiter from './middleware/rate-Limiter.js';
+//app.use(rateLimiter)
 
-/**************************************************
+/******************
  * ROTAS
- **************************************************/
+ ******************/
 
 import userRouter from './routes/user.js'
 app.use('/users', userRouter)
