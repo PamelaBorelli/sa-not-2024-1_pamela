@@ -6,8 +6,14 @@ import getUserModel from '../models/User'
 import { ZodError } from 'zod'
 
 export default function UserForm() {
+  const navigate = useNavigate()
+  const params = useParams()
+  
   const [state, setState] = React.useState({
-    user: {},
+    user: {
+      //Valor inicial para não dar erro de validação
+      is_admin: false
+    },
     inputErrors: null,
     changePassword: false
   })
@@ -19,11 +25,16 @@ export default function UserForm() {
 
   const editPasswordRef = React.useRef()
 
-  const navigate = useNavigate()
-  const params = useParams()
+
 
   React.useEffect(() => {
     if(params.id) fetchData()
+    // Se estivermos no modo de inserção de um novo usuário
+    // ou seja, sem id na rota, os campos de senha deverao sempre ser mostrados
+    else{
+      editPasswordRef.current.style.display = 'block'
+      setState({ ...state, changePassword: true})
+    }
   }, [])
 
   async function fetchData() {
@@ -73,7 +84,11 @@ export default function UserForm() {
       else await myfetch.post('/users', user)
 
       alert('Dados salvos com sucesso.')
+
+      // volta para a página de listagem de usuários
+      navigate('/users', {replace: true})
     }
+
     catch(error) {
       console.error(error)
 
@@ -115,7 +130,7 @@ export default function UserForm() {
           </label>
         </div>
 
-        <div>
+        <div style={{ dispay: params.id ? 'block' : 'none' }}>
           <input type="checkbox" onClick={handleEditPasswordToggle} />
           &nbsp;<span>Alterar senha</span>
         </div>
